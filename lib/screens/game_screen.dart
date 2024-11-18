@@ -5,6 +5,7 @@ import 'dart:math';
 import 'dart:convert';
 import '../models/game.dart';
 import '../models/task.dart';
+import 'add_task_screen.dart';
 
 class GameScreen extends StatefulWidget {
   final bool isIndoor;
@@ -13,6 +14,8 @@ class GameScreen extends StatefulWidget {
 
   @override
   State<GameScreen> createState() => _GameScreenState();
+
+  
 }
 
 class _GameScreenState extends State<GameScreen> {
@@ -25,6 +28,24 @@ class _GameScreenState extends State<GameScreen> {
   void initState() {
     super.initState();
     _initializeGame();
+  }
+   Future<void> _addTask() async {
+    final Task? newTask = await Navigator.push<Task>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddTaskScreen(
+          isIndoor: widget.isIndoor,
+          gameCode: gameCode!,
+        ),
+      ),
+    );
+
+    if (newTask != null) {
+      setState(() {
+        tasks.add(newTask);
+      });
+      await _saveGameState();
+    }
   }
 
   Future<void> _initializeGame() async {
@@ -143,7 +164,7 @@ class _GameScreenState extends State<GameScreen> {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
-              // TODO: Implement task creation
+              _addTask();
             },
           ),
           IconButton(
@@ -190,7 +211,7 @@ class _GameScreenState extends State<GameScreen> {
                   ),
                   child: ListTile(
                     title: Text(task.location),
-                    subtitle: Text(task.description),
+                    subtitle: Text(task.content),
                     trailing: Text(
                       '${task.points} pts',
                       style: const TextStyle(
