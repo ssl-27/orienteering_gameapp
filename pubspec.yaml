@@ -53,8 +53,10 @@ dev_dependencies:
   uuid: ^3.0.7
   qr_flutter: ^4.1.0
   path_provider: ^2.1.1
-  google_maps_flutter: ^2.5.0
   device_info_plus: ^9.0.0
+  flutter_map: ^4.0.0
+  latlong2: ^0.8.1
+  http: ^0.13.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

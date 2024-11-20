@@ -1,7 +1,8 @@
 import 'package:orienteering/models/task_type.dart';
 
 class Task {
-  final String id;
+  final String currentGameCode;
+  final String taskId;
   final String name;
   final String location;
   final String content;
@@ -11,7 +12,8 @@ class Task {
   final Map<String, dynamic> additionalData;
 
   Task({
-    required this.id,
+    required this.currentGameCode,
+    required this.taskId,
     required this.location,
     required this.points,
     required this.content,
@@ -23,7 +25,8 @@ class Task {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      'gameCode': currentGameCode,
+      'id': taskId,
       'name': name,
       'location': location,
       'points': points,
@@ -36,7 +39,8 @@ class Task {
 
   factory Task.fromJson(Map<String, dynamic> json) {
     return Task(
-      id: json['id'],
+      currentGameCode: json['gameCode'],
+      taskId: json['id'],
       name: json['name'],
       location: json['location'],
       points: json['points'],

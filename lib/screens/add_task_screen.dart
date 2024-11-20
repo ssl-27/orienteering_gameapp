@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 import 'dart:io';
 import 'dart:ui' as ui;
 import 'dart:convert';
@@ -33,6 +34,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   late String _content = '';
   TaskType _selectedType = TaskType.shortQuestion;
   LatLng? _selectedLocation;
+  final _mapcontroller = MapController();
   final _uuid = const Uuid();
 
   Future<String> _generateAndSaveQRCode() async {
@@ -138,7 +140,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     }
 
     return Task(
-      id: _uuid.v4(),
+      currentGameCode: widget.gameCode,
+      taskId: _uuid.v4(),
       name: _name,
       location: _location,
       points: _points,
@@ -241,26 +244,57 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 const Text('Select Location on Map:'),
                 SizedBox(
                   height: 200,
-                  child: GoogleMap(
-                    initialCameraPosition: const CameraPosition(
-                      target: LatLng(0, 0),
-                      zoom: 2,
-                    ),
-                    onTap: (LatLng location) {
+                  child: FlutterMap(
+                    mapController: _mapcontroller,
+                    options: MapOptions(
+                    center: LatLng(22.282150, 114.156891),
+                    zoom: 13,
+                    onTap: (tapPosition, point) {
                       setState(() {
-                        _selectedLocation = location;
+                        _selectedLocation = point;
                       });
-                    },
-                    markers: _selectedLocation == null
-                        ? {}
-                        : {
-                            Marker(
-                              markerId: const MarkerId('selected'),
-                              position: _selectedLocation!,
+                      _mapcontroller.move(point, _mapcontroller.zoom);
+                    }
+                    ),
+                    children: [
+                      TileLayer(
+                        urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                      ),
+                      if (_selectedLocation != null) MarkerLayer(
+                        markers: [
+                          Marker(
+                            width: 80.0,
+                            height: 80.0,
+                            point: _selectedLocation!,
+                            builder: (ctx) => const Icon(
+                              Icons.location_on,
+                              size: 50,
+                              color: Colors.red,
                             ),
-                          },
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
+                if (_selectedLocation != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: ElevatedButton.icon(
+                      icon: const Icon(Icons.clear),
+                      label: const Text('Clear Selected Location'),
+                      onPressed: () {
+                        setState(() {
+                          _selectedLocation = null;
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        foregroundColor: Colors.white,
+                      ),
+                    ),
+                  ),
+
               ],
               const SizedBox(height: 24),
               ElevatedButton(
@@ -278,7 +312,36 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     final task = await _createTask();
                     if (mounted) {
                       Navigator.pop(context, task);
+                      try {
+                        final response = await http.post(
+                          Uri.parse('http://10.0.2.2:3000/tasks'),
+                          headers: <String, String>{
+                            'Content-Type': 'application/json; charset=UTF-8',
+                          },
+                          body: jsonEncode(task.toJson()),
+                        );
+                        if (response.statusCode == 201) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Task created successfully'),
+                            ),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Failed to create task: ${response.body}'),
+                            ),
+                          );
+                        }
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Failed to create task: $e'),
+                          ),
+                        );
+                      }
                     }
+
                   }
                 },
                 child: const Text('Create Task'),
