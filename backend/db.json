@@ -1,55 +1,68 @@
 {
   "tasks": [
     {
-      "id": 1,
-      "taskId": "",
-      "name": "name",
-      "location": "example location",
-      "points": 123,
-      "content": "game task example content",
-      "type": "example type",
-      "additionalData": "some",
-      "completedBy": []
-    },
-    {
-      "taskId": "",
-      "name": "name",
-      "location": "example location",
-      "points": 123,
-      "content": "game task example content",
-      "type": "example type",
-      "additionalData": "some",
-      "completedBy": [],
-      "id": 2
-    },
-    {
-      "id": "659878c6-a30e-44ae-a6c9-8ca30ca336bd",
-      "name": "3433",
-      "location": "33",
-      "points": 123,
-      "content": "12312",
+      "gameCode": "YBK2CKSE",
+      "id": "29e1cbc7-0c78-456d-a598-cecae537911d",
+      "name": "12312",
+      "location": "12312",
+      "points": 32,
+      "content": "Hello",
       "type": "TaskType.shortQuestion",
       "completedBy": [],
       "additionalData": {
-        "latitude": 22.27997900981101,
-        "longitude": 114.16355967409434
+        "qrCode": "or!enteering-a47fce56-43b2-4c5c-aa30-0586e7cedf85"
       }
     },
     {
-      "gameCode": "4KXF4YU8",
-      "id": "715b4959-b660-4d1f-b984-205b8ff8dc21",
-      "name": "1232",
-      "location": "12312",
-      "points": 12312,
-      "content": "12312",
+      "gameCode": "UR49HBDY",
+      "id": "49ace644-1179-442f-a921-f2d725f5facc",
+      "name": "123",
+      "location": "123",
+      "points": 123,
+      "content": "123",
       "type": "TaskType.shortQuestion",
       "completedBy": [],
       "additionalData": {
-        "qrCode": "or!enteering-2786ad70-ca58-4c32-b134-6aaa34149acf"
+        "latitude": 22.28439328566188,
+        "longitude": 114.14126042696572
+      }
+    },
+    {
+      "gameCode": "UR49HBDY",
+      "id": "8822f56e-3418-4434-9a30-3044f551292b",
+      "name": "Testing outdoor task1",
+      "location": "Library",
+      "points": 123,
+      "content": "who are you?",
+      "type": "TaskType.shortQuestion",
+      "completedBy": [
+        "3906acd5-6f05-4855-be20-bbe773e12e67"
+      ],
+      "additionalData": {
+        "latitude": 22.2837577338157,
+        "longitude": 114.1347268571763
       }
     }
   ],
   "gameCodes": {
-    "gameCode": "A8ON2LA9", "isIndoor": false
-  }
+    "gameCode": "UR49HBDY",
+    "isIndoor": false
+  },
+  "users": [
+    {
+      "id": "",
+      "gameCode": "A8ON2LA9",
+      "score": 0
+    },
+    {
+      "id": "3906acd5-6f05-4855-be20-bbe773e12e67",
+      "gameCode": "UR49HBDY",
+      "score": 123
+    },
+    {
+      "id": "0f4b7776-5f0b-41a1-b95c-9d53ac820a8a",
+      "gameCode": "UR49HBDY",
+      "score": 0
+    }
+  ]
 }
