@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -20,7 +22,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
     controller.scannedDataStream.listen((scanData) {
       if (!_hasScanned) {
         _hasScanned = true;
-        Navigator.pop(context, scanData.code);
+        Navigator.pop(context, jsonDecode(scanData.code!)['code']);
       }
     });
   }

@@ -42,11 +42,56 @@
         "latitude": 22.2837577338157,
         "longitude": 114.1347268571763
       }
+    },
+    {
+      "gameCode": "SM4044MK",
+      "id": "e2a1728b-fc11-4b09-b885-25935cf9dce0",
+      "name": "testing indoor task",
+      "location": "testing indoor",
+      "points": 123,
+      "content": "shoort question?",
+      "type": "TaskType.shortQuestion",
+      "completedBy": [
+        "90a4a6b9-b886-4693-af9b-8cc43a3e93d8",
+        "6ad1aa5a-708d-4e75-95cc-0e636dbe09e3",
+        "6ad1aa5a-708d-4e75-95cc-0e636dbe09e3",
+        "6ad1aa5a-708d-4e75-95cc-0e636dbe09e3",
+        "6ad1aa5a-708d-4e75-95cc-0e636dbe09e3"
+      ],
+      "additionalData": {
+        "qrCode": "or!enteering-8f24b19c-2aee-4662-b1fc-05ecbf74cfbd"
+      }
+    },
+    {
+      "gameCode": "SM4044MK",
+      "id": "a15534a7-043f-4ac4-a527-2ce033da730a",
+      "name": "testing photo task",
+      "location": "testing location2",
+      "points": 3,
+      "content": "selfie pls",
+      "type": "TaskType.photoTaking",
+      "completedBy": [],
+      "additionalData": {
+        "qrCode": "or!enteering-e6910cf7-0d81-4c77-8f72-7d1771d27280"
+      }
+    },
+    {
+      "gameCode": "SM4044MK",
+      "id": "526464f4-7e81-45e0-ba9c-d1bbcfc903ad",
+      "name": "ddd",
+      "location": "ddd",
+      "points": 2,
+      "content": "100 steps",
+      "type": "TaskType.stepCounter",
+      "completedBy": [],
+      "additionalData": {
+        "qrCode": "or!enteering-f6b70334-3a43-4191-b14d-859ec17011ab"
+      }
     }
   ],
   "gameCodes": {
-    "gameCode": "UR49HBDY",
-    "isIndoor": false
+    "gameCode": "SM4044MK",
+    "isIndoor": true
   },
   "users": [
     {
@@ -63,6 +108,92 @@
       "id": "0f4b7776-5f0b-41a1-b95c-9d53ac820a8a",
       "gameCode": "UR49HBDY",
       "score": 0
+    },
+    {
+      "id": "ba1b5529-6e9a-4b91-a13a-b615c83ffe9c",
+      "gameCode": "UR49HBDY",
+      "score": 0
+    },
+    {
+      "id": "9caf49c8-212f-4bc9-9ea0-8a0e6c782a8c",
+      "gameCode": "UR49HBDY",
+      "score": 0
+    },
+    {
+      "id": "05bdfbb4-6a69-4a29-bed4-ec7ebd6d38a8",
+      "gameCode": "UR49HBDY",
+      "score": 0
+    },
+    {
+      "id": "a2223a0e-7c35-480b-85f9-4b0a15f52fae",
+      "gameCode": "UR49HBDY",
+      "score": 0
+    },
+    {
+      "id": "79e05bf2-9aff-4415-a0af-b4a3295161c4",
+      "gameCode": "SM4044MK",
+      "score": 0
+    },
+    {
+      "id": "7d21e68f-4903-4f70-8e8b-28b63f476256",
+      "gameCode": "SM4044MK",
+      "score": 0
+    },
+    {
+      "id": "2b09f54b-5258-4d24-9c20-306be7ada943",
+      "gameCode": "SM4044MK",
+      "score": 0
+    },
+    {
+      "id": "47675338-5d13-4865-90e9-1f54cb468a74",
+      "gameCode": "",
+      "score": 0
+    },
+    {
+      "id": "fa90aac5-088b-4f53-a57c-abccf0a14022",
+      "gameCode": "",
+      "score": 0
+    },
+    {
+      "id": "90a4a6b9-b886-4693-af9b-8cc43a3e93d8",
+      "gameCode": "SM4044MK",
+      "score": 123
+    },
+    {
+      "id": "b83bb820-b357-4c79-afd4-dee5df01d36f",
+      "gameCode": "SM4044MK",
+      "score": 0
+    },
+    {
+      "id": "6ad1aa5a-708d-4e75-95cc-0e636dbe09e3",
+      "gameCode": "SM4044MK",
+      "score": 492
+    },
+    {
+      "id": "031a8f17-2ac2-4785-902d-196500734477",
+      "gameCode": "SM4044MK",
+      "score": 0
+    }
+  ],
+  "taskSubmitted": [
+    {
+      "id": 123,
+      "taskID": "e2a1728b-fc11-4b09-b885-25935cf9dce0",
+      "userID": "90a4a6b9-b886-4693-af9b-8cc43a3e93d8",
+      "content": "hello",
+      "taskType": "TaskType.shortQuestion",
+      "qrCodeVerified": true,
+      "locationVerified": false,
+      "image": "sss",
+      "stepCount": 0
+    },
+    {
+      "userId": "6ad1aa5a-708d-4e75-95cc-0e636dbe09e3",
+      "gameCode": "SM4044MK",
+      "taskId": "e2a1728b-fc11-4b09-b885-25935cf9dce0",
+      "content": "666",
+      "qrCodeVerified": true,
+      "id": 124
     }
   ]
 }

@@ -1,8 +1,15 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:pedometer/pedometer.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:orienteering/models/task_type.dart';
 import 'package:orienteering/screens/qr_scanner_screen.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:image_picker/image_picker.dart';
 import '../models/task.dart';
 import '../service/task.dart';
+import 'leader_board_screen.dart';
 
 class TaskDetailScreen extends StatefulWidget {
   final Task task;
@@ -13,7 +20,9 @@ class TaskDetailScreen extends StatefulWidget {
   const TaskDetailScreen({
     Key? key,
     required this.task,
-    required this.gameCode, required this.userId, required this.isIndoor,
+    required this.gameCode,
+    required this.userId,
+    required this.isIndoor,
   }) : super(key: key);
 
   @override
@@ -32,11 +41,56 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
   bool _isLocationVerified = false;
   bool _isQrCodeVerified = false;
   bool _isSubmitting = false;
+  int _stepCount = 0;
+  XFile? _imageFile;
+
+  late Stream<StepCount> _stepCountStream;
+  late Stream<PedestrianStatus> _pedestrianStatusStream;
+  String _pedestrianStatus = 'unknown';
+  bool _isCountingSteps = false;
 
   @override
   void initState() {
     super.initState();
     _taskService = TaskService(gameCode: widget.gameCode);
+    _initStepCounter();
+  }
+
+  void _initStepCounter() {
+    _stepCountStream = Pedometer.stepCountStream;
+    _pedestrianStatusStream = Pedometer.pedestrianStatusStream;
+
+    _stepCountStream.listen(_onStepCount).onError(_onStepCountError);
+    _pedestrianStatusStream.listen(_onPedestrianStatusChanged).onError(_onPedestrianStatusError);
+  }
+
+
+  void _onStepCount(StepCount event) {
+    if(_isCountingSteps) {
+      setState(() {
+        _stepCount = event.steps;
+      });
+    }
+  }
+
+  void _onStepCountError(error) {
+    print('Step Count Error: $error');
+  }
+
+  void _onPedestrianStatusChanged(PedestrianStatus event) {
+    setState(() {
+      _pedestrianStatus = event.status;
+    });
+  }
+
+  void _onPedestrianStatusError(error) {
+    print('Pedestrian Status Error: $error');
+  }
+
+  void _toggleStepCounter() {
+    setState(() {
+      _isCountingSteps = !_isCountingSteps;
+    });
   }
 
   // Handle QR code scanning for indoor tasks
@@ -113,6 +167,14 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
     }
   }
 
+  Future<void>_pickImage() async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+    setState(() {
+      _imageFile = image;
+    });
+  }
+
   // Submit completed task to server
   Future<void> _submitTask() async {
     if (!_formKey.currentState!.validate()) return;
@@ -124,12 +186,25 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
     try {
       // Prepare task data
       Map<String, dynamic> taskData = {
+        'userId': widget.userId,
+        'taskType': widget.task.type,
+        'gameCode': widget.gameCode,
+        'taskId': widget.task.taskId,
         'content': _contentController.text,
         if (widget.isIndoor)
           'qrCodeVerified': _isQrCodeVerified,
         if (!widget.isIndoor)
           'locationVerified': _isLocationVerified,
+        if (widget.task.type == TaskType.photoTaking)
+          'image': _imageFile?.path,
+        if (widget.task.type == TaskType.stepCounter)
+          'stepCount': _stepCount,
       };
+
+      if (widget.task.type == TaskType.photoTaking && _imageFile != null) {
+        String base64Image = base64Encode(File(_imageFile!.path).readAsBytesSync());
+        taskData['image'] = base64Image;
+      }
 
       // Submit to server
       bool success = await _taskService.submitTask(widget.task.taskId, taskData, widget.userId);
@@ -245,21 +320,44 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
                 ],
                 const SizedBox(height: 24),
 
-                // Task content input
-                TextFormField(
-                  controller: _contentController,
-                  decoration: const InputDecoration(
-                    labelText: 'Task Content',
-                    border: OutlineInputBorder(),
+                if (widget.task.type == TaskType.shortQuestion) ...[
+                  TextFormField(
+                    controller: _contentController,
+                    decoration: const InputDecoration(
+                      labelText: 'Answer',
+                      border: OutlineInputBorder(),
+                    ),
+                    maxLines: 3,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your answer';
+                      }
+                      return null;
+                    },
                   ),
-                  maxLines: 3,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter task content';
-                    }
-                    return null;
-                  },
-                ),
+                ],
+                if (widget.task.type == TaskType.photoTaking) ...[
+                  ElevatedButton.icon(
+                    onPressed: _pickImage,
+                    icon: const Icon(Icons.camera_alt),
+                    label: const Text('Take Photo'),
+                  ),
+                  if (_imageFile != null)
+                    Image.file(File(_imageFile!.path)),
+                ],
+                if (widget.task.type == TaskType.stepCounter) ...[
+                  Text('Steps taken: $_stepCount'),
+                  Text('Status: $_pedestrianStatus'),
+                  ElevatedButton.icon(
+                    onPressed: _toggleStepCounter,
+                    icon: Icon(_isCountingSteps
+                        ? Icons.pause
+                        : Icons.play_arrow),
+                    label: Text(_isCountingSteps
+                        ? 'Pause Step Counter'
+                        : 'Start Step Counter'),
+                  ),
+                ],
                 const SizedBox(height: 24),
 
                 // Submit button

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:orienteering/screens/task_details_screen.dart';
 import '../models/task.dart';
 import '../service/task.dart';
+import 'leader_board_screen.dart';
 
 class UserTasksListScreen extends StatefulWidget {
   final bool isIndoor;
@@ -31,6 +32,19 @@ class _UserTasksListScreenState extends State<UserTasksListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tasks List'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () {
+              setState(() {
+                _tasksFuture = _taskService.getTasks();
+              });
+            },
+          ),
+          IconButton(onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context) => LeaderBoardScreen(gameCode: widget.gameCode)));
+          }, icon: const Icon(Icons.leaderboard))
+        ],
       ),
       body: FutureBuilder<List<Task>>(
         future: _tasksFuture,

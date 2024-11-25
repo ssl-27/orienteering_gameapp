@@ -34,6 +34,11 @@ class TaskService {
         task.completedBy.add(userId);
         points = task.points;
         user['score'] += points;
+        final userSubmittedResponse = await http.post(
+          Uri.parse('${baseUrl}/taskSubmitted'),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode(taskData)
+        );
         final userStatusAfterUpdate = await http.put(
           Uri.parse('${baseUrl}/users/${userId}'),
           headers: {'Content-Type': 'application/json'},
@@ -46,7 +51,7 @@ class TaskService {
         );
 
 
-        if (taskSubmittedResponse.statusCode == 200 && userStatusAfterUpdate.statusCode == 200) {
+        if (taskSubmittedResponse.statusCode == 200 && userStatusAfterUpdate.statusCode == 200 && userSubmittedResponse.statusCode == 201) {
           return true;
         } else {
           throw Exception('Failed to submit task');
