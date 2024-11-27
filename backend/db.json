@@ -87,10 +87,37 @@
       "additionalData": {
         "qrCode": "or!enteering-f6b70334-3a43-4191-b14d-859ec17011ab"
       }
+    },
+    {
+      "gameCode": "HJ27A5LQ",
+      "id": "6c52aba8-c517-4dc7-8986-656b288ca882",
+      "name": "Present at COMP3330",
+      "location": "HKU CPD",
+      "points": 100,
+      "content": "Take a photo!",
+      "type": "TaskType.photoTaking",
+      "completedBy": [],
+      "additionalData": {
+        "latitude": 22.283875961680103,
+        "longitude": 114.13463217559759
+      }
+    },
+    {
+      "gameCode": "Z1LLSRFE",
+      "id": "592b22bb-e095-491b-a32f-122d0fc31a0c",
+      "name": "Presentation",
+      "location": "CPD",
+      "points": 123,
+      "content": "Who am I",
+      "type": "TaskType.shortQuestion",
+      "completedBy": [],
+      "additionalData": {
+        "qrCode": "or!enteering-1245fab5-d53d-4b18-aea0-7349252cb729"
+      }
     }
   ],
   "gameCodes": {
-    "gameCode": "SM4044MK",
+    "gameCode": "Z1LLSRFE",
     "isIndoor": true
   },
   "users": [
@@ -172,6 +199,31 @@
     {
       "id": "031a8f17-2ac2-4785-902d-196500734477",
       "gameCode": "SM4044MK",
+      "score": 0
+    },
+    {
+      "id": "4080d676-7c80-4423-86ea-f6fcd1925338",
+      "gameCode": "HJ27A5LQ",
+      "score": 0
+    },
+    {
+      "id": "9c482d64-1c0f-424c-8ffe-5cc53305435c",
+      "gameCode": "HJ27A5LQ",
+      "score": 0
+    },
+    {
+      "id": "41183d83-9445-4400-90f0-8ce96c8fce69",
+      "gameCode": "HJ27A5LQ",
+      "score": 0
+    },
+    {
+      "id": "a3b322f6-f0ab-4520-9ef8-1aba521c2989",
+      "gameCode": "Z1LLSRFE",
+      "score": 0
+    },
+    {
+      "id": "c4e27909-5fa1-4d5b-8db0-b353ac2a5efc",
+      "gameCode": "Z1LLSRFE",
       "score": 0
     }
   ],
