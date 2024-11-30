@@ -42,7 +42,7 @@ class _UserTasksListScreenState extends State<UserTasksListScreen> {
             },
           ),
           IconButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => LeaderBoardScreen(gameCode: widget.gameCode)));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => LeaderBoardScreen(gameCode: widget.gameCode, userId: widget.userId)));
           }, icon: const Icon(Icons.leaderboard))
         ],
       ),

@@ -34,10 +34,11 @@ class TaskService {
         task.completedBy.add(userId);
         points = task.points;
         user['score'] += points;
+        final encodedTaskData = jsonEncode(taskData);
         final userSubmittedResponse = await http.post(
           Uri.parse('${baseUrl}/taskSubmitted'),
           headers: {'Content-Type': 'application/json'},
-          body: jsonEncode(taskData)
+          body: encodedTaskData,
         );
         final userStatusAfterUpdate = await http.put(
           Uri.parse('${baseUrl}/users/${userId}'),

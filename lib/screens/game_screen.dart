@@ -7,7 +7,6 @@ import 'dart:convert';
 import '../models/game.dart';
 import '../models/task.dart';
 import 'add_task_screen.dart';
-
 class GameScreen extends StatefulWidget {
   final bool isIndoor;
 
@@ -237,7 +236,7 @@ class _GameScreenState extends State<GameScreen> {
                       ),
                     ),
                     onTap: () {
-                      // TODO: Implement task detail view
+
                     },
                   ),
                 );

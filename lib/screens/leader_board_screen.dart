@@ -4,8 +4,9 @@ import '../service/user.dart';
 
 class LeaderBoardScreen extends StatefulWidget {
   final String gameCode;
+  final String userId;
 
-  const LeaderBoardScreen({Key? key, required this.gameCode}) : super(key: key);
+  const LeaderBoardScreen({Key? key, required this.gameCode, required this.userId}) : super(key: key);
 
   @override
   _LeaderboardScreenState createState() => _LeaderboardScreenState();
@@ -45,7 +46,7 @@ class _LeaderboardScreenState extends State<LeaderBoardScreen> {
                 User userScore = scores[index];
                 return ListTile(
                   leading: Text('#${index + 1}'),
-                  title: Text('User: ${userScore.id}'),
+                  title: Text(userScore.id == widget.userId ? 'You' : 'User: ${userScore.id}'),
                   trailing: Text('${userScore.score} points'),
                 );
               },

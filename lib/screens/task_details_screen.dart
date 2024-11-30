@@ -53,7 +53,7 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
   void initState() {
     super.initState();
     _taskService = TaskService(gameCode: widget.gameCode);
-    _initStepCounter();
+    //_initStepCounter();
   }
 
   void _initStepCounter() {
@@ -187,7 +187,7 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
       // Prepare task data
       Map<String, dynamic> taskData = {
         'userId': widget.userId,
-        'taskType': widget.task.type,
+        'taskType': widget.task.type.name,
         'gameCode': widget.gameCode,
         'taskId': widget.task.taskId,
         'content': _contentController.text,
