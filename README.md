@@ -25,3 +25,6 @@ Upon setting up game task details, Game Master has to specify the GPS coordinate
 5. Run main.dart in the `lib` directory on your emulator or physical device. It is suggested to run on 2 devices to test the game master and player roles.
 6. Play around with the app and have fun!
 
+#### Note
+The task type `stepCounter` is not implemented yet. It is meant to be a task that requires players to walk a certain number of steps to complete the task, it is not testable on an emulator, so relevant code is commented out.
+
