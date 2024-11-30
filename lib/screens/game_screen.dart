@@ -1,12 +1,12 @@
 // lib/screens/game_screen.dart
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math';
 import 'dart:convert';
 import '../models/game.dart';
 import '../models/task.dart';
 import 'add_task_screen.dart';
-
 class GameScreen extends StatefulWidget {
   final bool isIndoor;
 
@@ -75,19 +75,35 @@ class _GameScreenState extends State<GameScreen> {
       }
     } else {
       // Create new game if no active game exists
-      setState(() {
-        gameCode = _generateGameCode();
-        _saveGameState();
-        isLoading = false;
-      });
+      await _generateGameCode();
     }
   }
 
-  String _generateGameCode() {
+  Future<String> _generateGameCode() async {
     const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     Random rnd = Random();
-    return String.fromCharCodes(Iterable.generate(
+    String randomGameCode = String.fromCharCodes(Iterable.generate(
         8, (_) => chars.codeUnitAt(rnd.nextInt(chars.length))));
+    try {
+      await http.post(
+         Uri.parse('http://10.0.2.2:3000/gameCodes'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode({
+            'gameCode': randomGameCode,
+            'isIndoor': widget.isIndoor,
+          }));
+    }
+    catch(e) {
+      print('Error generating game code: $e');
+      }
+    setState(() {
+      gameCode = randomGameCode;
+      _saveGameState();
+      isLoading = false;
+    });
+    return randomGameCode;
   }
 
   Future<Game?> _loadGameState() async {
@@ -220,7 +236,7 @@ class _GameScreenState extends State<GameScreen> {
                       ),
                     ),
                     onTap: () {
-                      // TODO: Implement task detail view
+
                     },
                   ),
                 );

@@ -30,7 +30,7 @@ class QRCodeManager {
       final androidInfo = await DeviceInfoPlugin().androidInfo;
       final sdkInt = androidInfo.version.sdkInt;
       if (sdkInt != null && sdkInt >= 33) {
-        final status = await Permission.storage.request();
+        final status = await Permission.photos.request();
         return status.isGranted;
       } else {
         final status = await Permission.storage.request();
@@ -43,7 +43,6 @@ class QRCodeManager {
   static Future<String> saveQRCode(Uint8List imageBytes, String gameCode, String location) async {
     final hasPermission = await requestStoragePermission();
     if (!hasPermission) {
-      await openAppSettings();
       throw Exception('Storage permission denied');
     }
 
